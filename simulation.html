@@ -2,12 +2,73 @@
 <html>
   <head>
     <title>Night Sky Simulator</title>
+    <link href="simulation.css" rel="stylesheet">
   </head>
   <body>
-    <style>
-      body {
-	  background-image: url('vizcon.gif');
-      }
-    </style>
+    <canvas id="simulation"></canvas>                                                   
+     <script>                                                                            
+       var canvas = document.getElementById("simulation");                               
+       var ctx = canvas.getContext("2d");                                                
+                                                                                         
+       window.addEventListener('resize', resizeCanvas, false);                           
+                                                                                         
+       function resizeCanvas() {                                                         
+           canvas.width = window.innerWidth;                                             
+           canvas.height = window.innerHeight;                                           
+           draw();                                                                       
+       };                                                                                
+                                                                                         
+       var img = new Image();                                                            
+       img.src = 'vizcon.gif';                                                           
+       img.onload = function(){                                                          
+           ctx.drawImage(img, 0, 0);                                                     
+       };
+	     
+       function draw() {                                                                 
+           ctx.drawImage(img, 0, 0);                                                     
+       };                                                                                
+                                                                                         
+       function clear() {                                                                
+           // Store the current transformation matrix                                    
+           ctx.save();                                                                   
+                                                                                         
+           // Use the identity matrix while clearing the canvas                          
+           ctx.setTransform(1, 0, 0, 1, 0, 0);                                           
+           ctx.clearRect(0, 0, canvas.width, canvas.height);
+	   // Restore the transform                                                      
+           ctx.restore();                                                                
+       }                                                                                 
+       var drag = false;                                                                 
+       var dragStart;                                                                    
+       var dragEnd;                                                                      
+       draw()                                                                            
+       canvas.addEventListener('mousedown', function(event) {                            
+           dragStart = {                                                                 
+               x: event.pageX - canvas.offsetLeft,                                       
+               y: event.pageY - canvas.offsetTop                                         
+           }                                                                             
+           drag = true;
+       })                                                                                
+	     
+       canvas.addEventListener('mouseup', function(event) {                              
+           drag = false;                                                                 
+       })                                                                                
+                                                                                         
+       canvas.addEventListener('mousemove', function(event) {                            
+           if (drag) {                                                                   
+               dragEnd = {                                                               
+                   x: event.pageX - canvas.offsetLeft,                                   
+                   y: event.pageY - canvas.offsetTop                                     
+               }                                                                         
+               ctx.translate(dragEnd.x - dragStart.x, dragEnd.y - dragStart.y);          
+               dragStart = dragEnd;                                                      
+               clear()                                                                   
+               draw()                                                                    
+           }
+       })                                                                                
+                                                                                         
+       resizeCanvas();                                                                   
+       draw();                                                                           
+     </script>
   </body>
 </html>
