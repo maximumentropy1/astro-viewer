@@ -24,7 +24,7 @@
 	   dragEnd: {x: 0, y: 0},
 	   mouse: {x: 0, y: 0},
 	   coords: {x: 0, y: 0},
-	   ra: {raw: 0, deg: 0, arcmin: 0, arcsec: 0},
+	   ra: {raw: 0, hour: 0, arcmin: 0, arcsec: 0},
 	   d: {raw: 0, deg: 0, arcmin: 0, arcsec: 0}
        }
 
@@ -64,7 +64,7 @@
 	   //draw words
 	   ctx.font = "20px Arial";
 	   ctx.fillStyle = "black";
-	   ctx.fillText("Right Ascension: " + state.ra.deg + "degs " + state.ra.arcmin + "arcmins " + state.ra.arcsec + "arcsecs", 10, 30);
+	   ctx.fillText("Right Ascension: " + state.ra.hour + "hours " + state.ra.arcmin + "arcmins " + state.ra.arcsec + "arcsecs", 10, 30);
 	   ctx.fillText("Declination: " + state.d.deg + "degs " + state.d.arcmin + "arcmins " + state.d.arcsec + "arcsecs", 10, 65);
 	   //ctx.fillText(state.coords.x, 400, 30);
 	   //ctx.fillText(state.coords.y, 400, 65);
@@ -95,7 +95,7 @@
 	   state.ra.raw = (2591 - (state.mouse.x - state.coords.x))/107.96;
 	   state.d.raw = -(state.mouse.y- state.coords.y)/7.117 + 90;
 	   //change into degs, mins, and secs
-	   state.ra.deg = Math.floor(state.ra.raw);
+	   state.ra.hour = Math.floor(state.ra.raw);
 	   state.d.deg = Math.floor(state.d.raw);
 	   state.ra.arcmin = Math.floor((state.ra.raw % 1)*60);
 	   state.d.arcmin = Math.floor((state.d.raw % 1)*60);
