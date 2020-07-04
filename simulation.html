@@ -95,8 +95,7 @@ arcsecs", 10, 30);
                y: event.pageY - canvas.offsetTop
            };                                                                                                             
            //calculate raw ra and d values:                                                                               
-           state.ra.raw = state.mouse.x/107.96;                                                                           
-           state.d.raw = -state.mouse.y/7.117 + 90;                                                                       
+           state.ra.raw = (state.mouse.x - state.coords.x)/107.96;                                                                           
            //change into degs, mins, and secs                                                                             
            state.ra.deg = Math.floor(state.ra.raw);                                                                       
            state.d.deg = Math.floor(state.d.raw);                                                                         
