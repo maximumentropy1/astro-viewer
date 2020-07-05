@@ -1,6 +1,7 @@
-
+//initialize variables for canvas and jsdataframe for dealing with data about objects
 var canvas = document.getElementById("simulation");
 var ctx = canvas.getContext("2d");
+var jd = jsdataframe;
 
 window.addEventListener('resize', resizeCanvas, false);
 function resizeCanvas() {
