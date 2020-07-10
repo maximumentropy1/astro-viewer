@@ -27,18 +27,22 @@ Object.prototype.draw = function() {
 	ctx.drawImage(this.img, this.x - state.coords.x, this.y - state.coords.y);
     }
 }
+//converts the JSON file into a JS object
+var objList = 
+[
+{"objName": "Mercury", "description": "eeeeeeee", "imgLink": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Mercury_in_color_-_Prockter07-edit1.jpg/900px-Mercury_in_color_-_Prockter07-edit1.jpg\n", "x": "1832.2", "y": "492.1"},
+ 
+ {"objName": "Venus", "description": "aaaaaaaa", "imgLink": "https://hubblesite.org/uploads/image/display_image/282/web_print.jpg","x": "2128.3","y": "509.3"}  
+];
 
-var objList = JSON.parse('astroObjects.json');
-for (var obj in objList) {
-    Object(objList[obj].x, objList[obj].y, objList[obj].imgLink,objList[obj].description);
-    //while simulation mouse is not in range:
-        do {
-            Object.prototype.checkCollision();
-        }
-        while (Object.prototype.checkCollision == false);
-        if(Object.prototype.checkCollision == true) {
-            this.show = true;
-            Object.prototype.draw()
-        }
+//iteration for each of the objects within the list object declared above
+for (var i = 0; i<objList.length; i++) {
+   console.log(objList[i].objName);
+    //var Object = newObject(objList[obj].x, objList[obj].y, objList[obj].imgLink,objList[obj].description);
+ 
+    //    if(Object.prototype.checkCollision == true) {
+    //        this.show = true;
+    //        Object.prototype.draw()
+    //    }
     
 }
