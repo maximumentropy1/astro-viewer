@@ -17,16 +17,24 @@ var state = {
     mouse: {x: 0, y: 0},
     coords: {x: 0, y: 0},
     ra: {raw: 0, hour: 0, arcmin: 0, arcsec: 0},
-    d: {raw: 0, deg: 0, arcmin: 0, arcsec: 0}
+    d: {raw: 0, deg: 0, arcmin: 0, arcsec: 0},
+    showObj: false,
+    objNum: 0
 }
 
 //initialize the image
 var img = new Image();
-img.src = 'images/betterstarmap.png';
+img.src = '../images/betterstarmap.png';
 img.onload = function(){
     ctx.drawImage(img, state.coords.x, state.coords.y);
 };
-
+var objectImages = {};
+function addImage(object) {
+    var newImage = new Image(100, 100);
+    newImage.url = object.imgLink;
+    objectImages[object.objName] = newImage;
+};
+objects.forEach(addImage);
 
 function clear() {
     // Store the current transformation matrix
@@ -38,26 +46,58 @@ function clear() {
     ctx.restore();
 }
 
+function drawObject(object) {
+    //draw the object
+
+    //draw rectangle behind image
+    ctx.beginPath();
+    //set style:
+    ctx.lineWidth = "0";
+    ctx.fillStyle = "rgba(0,0,0,0.5)";
+    //draw rectangle
+    ctx.rect(20, canvas.height - 340, 220, 320);
+    ctx.fill();
+
+    ctx.drawImage(objectImages[object.objName], 30, canvas.height - 330);
+}    
+function drawDots(object) {
+    ctx.beginPath();
+    ctx.linewidth = "0";
+    ctx.fillStyle = "rgb(255,0,0)";
+    ctx.arc(object.x + state.coords.x, object.y + state.coords.y, 10, 0, 2 * Math.PI);
+    ctx.fill();
+
+    ctx.font = "15px Arial";
+    ctx.fillText(object.objName, object.x + state.coords.x + 20, object.y + state.coords.y + 10);
+};
+
 function draw() {
     clear();
     ctx.drawImage(img, state.coords.x, state.coords.y);
+
+    //draw circles and names
+    objects.forEach(drawDots);
 
     //draw rectangle behind words:
     ctx.beginPath();
     //set style:
     ctx.lineWidth = "0";
-    ctx.fillStyle = "white";
+    ctx.fillStyle = "rgba(0,0,0,0.6)";
     //draw rectangle
     ctx.rect(0, 0, 500, 100);
     ctx.fill();
 
     //draw words
     ctx.font = "20px Arial";
-    ctx.fillStyle = "black";
+    ctx.fillStyle = "rgb(100,100,200)";
     ctx.fillText("Right Ascension: " + state.ra.hour + "hours " + state.ra.arcmin + "arcmins " + state.ra.arcsec + "arcsecs", 10, 30);
     ctx.fillText("Declination: " + state.d.deg + "degs " + state.d.arcmin + "arcmins " + state.d.arcsec + "arcsecs", 10, 65);
-    //ctx.fillText(state.coords.x, 400, 30);
-    //ctx.fillText(state.coords.y, 400, 65);
+
+    //draw an object if it says too
+    if(state.showObj) {
+	drawObject(state.objNum);
+	console.log(state.showObj);
+    }
 };
 
 //when mouse is pressed, store coordinates and set move variable to true so it moves
@@ -101,9 +141,29 @@ canvas.addEventListener('mousemove', function(event) {
 
         state.dragStart = state.dragEnd;
     }
-    draw()
+    draw();
 })
 
+function collisions(item, index) {
+    if(item.x + 20 + state.coords.x > state.mouse.x && item.x - 20 +state.coords.x< state.mouse.x && item.y + 20 + state.coords.y> state.mouse.y && item.y - 20 + state.coords.y < state.mouse.y) {
+	if(state.objNum = index) {
+	    //if the variable is already set, toggle whether to show it or not
+	    state.showObj = !state.showObj;
+	} else {
+	    state.showObj = true;
+	    state.objNum = index;
+	}
+    }
+}
+
+canvas.addEventListener('click', function(event) {
+    objects.forEach(collisions);
+    //after figuring out which one to draw, draw the selected one if it says to
+    if(state.showObj) {
+	draw();
+    }
+});
+	
 window.addEventListener('resize', resizeCanvas, false);
 
 resizeCanvas();
