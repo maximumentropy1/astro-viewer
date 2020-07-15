@@ -19,7 +19,9 @@ var state = {
     ra: {raw: 0, hour: 0, arcmin: 0, arcsec: 0},
     d: {raw: 0, deg: 0, arcmin: 0, arcsec: 0},
     showObj: false,
-    objNum: 0
+    objNum: 0,
+    //this variable is to tell if the mouse was clicked not on one of the objects to turn showObj off
+    anyObjChange: false
 }
 
 //initialize the image
@@ -53,12 +55,12 @@ function drawObject(object) {
     ctx.beginPath();
     //set style:
     ctx.lineWidth = "0";
-    ctx.fillStyle = "rgba(0,0,0,0.5)";
+    ctx.fillStyle = "rgba(0,0,0,0.6)";
     //draw rectangle
-    ctx.rect(20, canvas.height - 340, 220, 320);
+    ctx.rect(0, canvas.height - 400, 250, 400);
     ctx.fill();
 
-    ctx.drawImage(objectImages[object.objName], 30, canvas.height - 330);
+    //ctx.drawImage(objectImages[object.objName], 30, canvas.height - 330);
 }    
 function drawDots(object) {
     ctx.beginPath();
@@ -96,7 +98,6 @@ function draw() {
     //draw an object if it says too
     if(state.showObj) {
 	drawObject(state.objNum);
-	console.log(state.showObj);
     }
 };
 
@@ -145,8 +146,10 @@ canvas.addEventListener('mousemove', function(event) {
 })
 
 function collisions(item, index) {
+    //if it the mouse is above the object
     if(item.x + 20 + state.coords.x > state.mouse.x && item.x - 20 +state.coords.x< state.mouse.x && item.y + 20 + state.coords.y> state.mouse.y && item.y - 20 + state.coords.y < state.mouse.y) {
-	if(state.objNum = index) {
+	state.anyObjChange = true;
+	if(state.objNum == index) {
 	    //if the variable is already set, toggle whether to show it or not
 	    state.showObj = !state.showObj;
 	} else {
@@ -158,10 +161,16 @@ function collisions(item, index) {
 
 canvas.addEventListener('click', function(event) {
     objects.forEach(collisions);
-    //after figuring out which one to draw, draw the selected one if it says to
-    if(state.showObj) {
-	draw();
+
+    //check if any change occured, if not turn off the display object function
+    if(!state.anyObjChange) {
+	state.showObj = false;
+    } else { //reset the variable for the next run
+	state.anyObjChange = false;
     }
+    
+    //make sure to draw the panel again in case it needs to cover up the old one or draw a new one
+    draw();
 });
 	
 window.addEventListener('resize', resizeCanvas, false);
