@@ -98,27 +98,40 @@ function drawObject(objectID) {
 
     //draw title and description text:
     ctx.font = "20px Arial";
-    ctx.fillStyle = "rgb(100,100,200)";
+    ctx.fillStyle = "white";
     wrapText(object.objName, 30, canvas.height - 450, 440, 20);
 
     ctx.font = "15px Arial";
     wrapText(object.description, 30, canvas.height - 420, 440, 20);
 }    
 function drawDots(object) {
-    ctx.beginPath();
-    ctx.linewidth = "0";
-
+    var x = object.x + state.coords.x
+    var y = object.y + state.coords.y
+    
     //check if it has been visited before
     if(object.visited) {
-	ctx.fillStyle = "rgb(200,0,100)";
+	ctx.fillStyle = "rgb(50,75,100)";
     } else {
-	ctx.fillStyle = "rgb(200,200,200)";
+	ctx.fillStyle = "rgb(100,150,200)";
     }
 
     if(object.type == 'planet') {
-	ctx.arc(object.x + state.coords.x, object.y + state.coords.y, 10, 0, 2 * Math.PI);
+	ctx.beginPath();
+	ctx.linewidth = "0";
+	ctx.arc(x, y, 10, 0, 2 * Math.PI);
     } else if(object.type == 'star') {
-	ctx.arc(object.x + state.coords.x, object.y + state.coords.y, 10, 0, 2 * Math.PI);
+	ctx.beginPath();
+	ctx.linewidth = "0";
+	ctx.moveTo(x - 10*Math.cos(Math.PI/6), y - 10*Math.sin(Math.PI/6));
+	ctx.lineTo(x + 10*Math.cos(Math.PI/6), y - 10*Math.sin(Math.PI/6));
+	ctx.lineTo(x, y + 10);
+	ctx.closePath();
+	ctx.fill();
+	ctx.beginPath();
+	ctx.moveTo(x - 10*Math.cos(Math.PI/6), y + 10*Math.sin(Math.PI/6));
+	ctx.lineTo(x + 10*Math.cos(Math.PI/6), y + 10*Math.sin(Math.PI/6));
+	ctx.lineTo(x, y - 10);
+	ctx.closePath();
     }
 
     ctx.fill();
@@ -133,6 +146,8 @@ function draw() {
     //draw circles and names
     objects.forEach(drawDots);
 
+
+    
     //draw rectangle behind words:
     ctx.beginPath();
     //set style:
@@ -141,13 +156,51 @@ function draw() {
     //draw rectangle
     ctx.rect(0, 0, 500, 100);
     ctx.fill();
-
     //draw words
     ctx.font = "20px Arial";
-    ctx.fillStyle = "rgb(100,100,200)";
+    ctx.fillStyle = "white";
     ctx.fillText("Right Ascension: " + state.ra.hour + "hours " + state.ra.arcmin + "arcmins " + state.ra.arcsec + "arcsecs", 10, 30);
     ctx.fillText("Declination: " + state.d.deg + "degs " + state.d.arcmin + "arcmins " + state.d.arcsec + "arcsecs", 10, 65);
 
+
+    //draw legend
+    ctx.beginPath();
+    ctx.fillStyle = "rgba(0,0,0,0.8)";
+    //draw rctangle
+    ctx.rect(canvas.width - 200, 0, 200, 100);
+    ctx.fill();
+    //draw legend
+    ctx.fillStyle = "rgb(100, 150, 200)";
+    //draw star
+    var x = canvas.width - 180;
+    var y = 25;
+    ctx.beginPath();
+    ctx.linewidth = "0";
+    ctx.moveTo(x - 15*Math.cos(Math.PI/6), y - 15*Math.sin(Math.PI/6));
+    ctx.lineTo(x + 15*Math.cos(Math.PI/6), y - 15*Math.sin(Math.PI/6));
+    ctx.lineTo(x, y + 15);
+    ctx.closePath();
+    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(x - 15*Math.cos(Math.PI/6), y + 15*Math.sin(Math.PI/6));
+    ctx.lineTo(x + 15*Math.cos(Math.PI/6), y + 15*Math.sin(Math.PI/6));
+    ctx.lineTo(x, y - 15);
+    ctx.closePath();
+    ctx.fill();
+    //draw circle
+    ctx.beginPath();
+    ctx.linewidth = "0";
+    ctx.arc(x, y + 40, 15, 0, 2 * Math.PI);
+    ctx.closePath();
+    ctx.fill();
+    //draw text
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "white";
+    ctx.fillText("= star", x + 30, y + 8);
+    ctx.fillText("= planet", x + 30, y + 50);
+    
+
+    
     //draw an object if it says too
     if(state.showObj) {
 	drawObject(state.objNum);
