@@ -32,8 +32,9 @@ img.onload = function(){
 };
 var objectImages = {};
 function addImage(object) {
+    //create each image and load it into the array
     var newImage = new Image(100, 100);
-    newImage.url = object.imgLink;
+    newImage.src = object.imgLink;
     objectImages[object.objName] = newImage;
 };
 objects.forEach(addImage);
@@ -48,27 +49,79 @@ function clear() {
     ctx.restore();
 }
 
-function drawObject(object) {
+//function that auto wraps text for the descriptions
+function wrapText(text, x, y, maxWidth, lineHeight) {
+    var words = text.split(' ');
+    var line = '';
+    //loops through the words testing each one if it is too long
+    for(var n = 0; n < words.length; n++) {
+        var testLine = line + words[n] + ' ';
+        var metrics = ctx.measureText(testLine);
+        var testWidth = metrics.width;
+        if (testWidth > maxWidth && n > 0) {
+            ctx.fillText(line, x, y);
+            line = words[n] + ' ';
+            y += lineHeight;
+        } else {
+            line = testLine;
+        }
+    }
+    ctx.fillText(line, x, y);
+}
+
+function drawObject(objectID) {
+    object = objects[objectID];
+    
     //draw the object
 
     //draw rectangle behind image
     ctx.beginPath();
     //set style:
     ctx.lineWidth = "0";
-    ctx.fillStyle = "rgba(0,0,0,0.6)";
+    ctx.fillStyle = "rgba(0,0,0,0.8)";
     //draw rectangle
-    ctx.rect(0, canvas.height - 400, 250, 400);
+    ctx.rect(0, canvas.height - 500, 500, 500);
     ctx.fill();
 
-    //ctx.drawImage(objectImages[object.objName], 30, canvas.height - 330);
+    ctx.drawImage(objectImages[object.objName], 30, canvas.height - 300, 0.3*objectImages[object.objName].naturalWidth, 0.3*objectImages[object.objName].naturalHeight);
+
+    //laggy code for images - loads a new one each time it is requested - even when it eventually ends up in the browser's cache the image still takes a few seconds to show up the first time
+    //var image = new Image();
+    //image.src = objectImages[objects[state.objNum].objName].src;
+    //ctx.drawImage(image, 30, canvas.height - 330, 0.25*image.naturalWidth, 0.25*image.naturalHeight);
+    
+    //bad code for descriptions:
+    //var textbox = document.createElement("P");
+    //var description = document.createTextNode(objects[state.objNum].description);
+    //textbox.appendChild(description);
+    //document.body.appendChild(textbox);
+
+    //draw title and description text:
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "rgb(100,100,200)";
+    wrapText(object.objName, 30, canvas.height - 450, 440, 20);
+
+    ctx.font = "15px Arial";
+    wrapText(object.description, 30, canvas.height - 420, 440, 20);
 }    
 function drawDots(object) {
     ctx.beginPath();
     ctx.linewidth = "0";
-    ctx.fillStyle = "rgb(255,0,0)";
-    ctx.arc(object.x + state.coords.x, object.y + state.coords.y, 10, 0, 2 * Math.PI);
-    ctx.fill();
 
+    //check if it has been visited before
+    if(object.visited) {
+	ctx.fillStyle = "rgb(200,0,100)";
+    } else {
+	ctx.fillStyle = "rgb(200,200,200)";
+    }
+
+    if(object.type == 'planet') {
+	ctx.arc(object.x + state.coords.x, object.y + state.coords.y, 10, 0, 2 * Math.PI);
+    } else if(object.type == 'star') {
+	ctx.arc(object.x + state.coords.x, object.y + state.coords.y, 10, 0, 2 * Math.PI);
+    }
+
+    ctx.fill();
     ctx.font = "15px Arial";
     ctx.fillText(object.objName, object.x + state.coords.x + 20, object.y + state.coords.y + 10);
 };
@@ -84,7 +137,7 @@ function draw() {
     ctx.beginPath();
     //set style:
     ctx.lineWidth = "0";
-    ctx.fillStyle = "rgba(0,0,0,0.6)";
+    ctx.fillStyle = "rgba(0,0,0,0.8)";
     //draw rectangle
     ctx.rect(0, 0, 500, 100);
     ctx.fill();
@@ -149,6 +202,7 @@ function collisions(item, index) {
     //if it the mouse is above the object
     if(item.x + 20 + state.coords.x > state.mouse.x && item.x - 20 +state.coords.x< state.mouse.x && item.y + 20 + state.coords.y> state.mouse.y && item.y - 20 + state.coords.y < state.mouse.y) {
 	state.anyObjChange = true;
+	item.visited = true;
 	if(state.objNum == index) {
 	    //if the variable is already set, toggle whether to show it or not
 	    state.showObj = !state.showObj;
