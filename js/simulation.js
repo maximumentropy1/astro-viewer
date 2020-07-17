@@ -107,10 +107,21 @@ function drawObject(objectID) {
 function drawDots(object) {
     ctx.beginPath();
     ctx.linewidth = "0";
-    ctx.fillStyle = "rgb(255,0,0)";
-    ctx.arc(object.x + state.coords.x, object.y + state.coords.y, 10, 0, 2 * Math.PI);
-    ctx.fill();
 
+    //check if it has been visited before
+    if(object.visited) {
+	ctx.fillStyle = "rgb(200,0,100)";
+    } else {
+	ctx.fillStyle = "rgb(200,200,200)";
+    }
+
+    if(object.type == 'planet') {
+	ctx.arc(object.x + state.coords.x, object.y + state.coords.y, 10, 0, 2 * Math.PI);
+    } else if(object.type == 'star') {
+	ctx.arc(object.x + state.coords.x, object.y + state.coords.y, 10, 0, 2 * Math.PI);
+    }
+
+    ctx.fill();
     ctx.font = "15px Arial";
     ctx.fillText(object.objName, object.x + state.coords.x + 20, object.y + state.coords.y + 10);
 };
@@ -191,6 +202,7 @@ function collisions(item, index) {
     //if it the mouse is above the object
     if(item.x + 20 + state.coords.x > state.mouse.x && item.x - 20 +state.coords.x< state.mouse.x && item.y + 20 + state.coords.y> state.mouse.y && item.y - 20 + state.coords.y < state.mouse.y) {
 	state.anyObjChange = true;
+	item.visited = true;
 	if(state.objNum == index) {
 	    //if the variable is already set, toggle whether to show it or not
 	    state.showObj = !state.showObj;
