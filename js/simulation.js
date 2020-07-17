@@ -132,6 +132,14 @@ function drawDots(object) {
 	ctx.lineTo(x + 10*Math.cos(Math.PI/6), y + 10*Math.sin(Math.PI/6));
 	ctx.lineTo(x, y - 10);
 	ctx.closePath();
+    } else {
+	ctx.beginPath();
+	ctx.linewidth = "0";
+	ctx.moveTo(x - 10*Math.cos(Math.PI/6), y - 10*Math.sin(Math.PI/6));
+	ctx.lineTo(x + 10*Math.cos(Math.PI/6), y - 10*Math.sin(Math.PI/6));
+	ctx.lineTo(x, y + 10);
+	ctx.closePath();
+	ctx.fill();
     }
 
     ctx.fill();
@@ -167,7 +175,7 @@ function draw() {
     ctx.beginPath();
     ctx.fillStyle = "rgba(0,0,0,0.8)";
     //draw rctangle
-    ctx.rect(canvas.width - 200, 0, 200, 100);
+    ctx.rect(canvas.width - 200, 0, 200, 130);
     ctx.fill();
     //draw legend
     ctx.fillStyle = "rgb(100, 150, 200)";
@@ -193,11 +201,20 @@ function draw() {
     ctx.arc(x, y + 40, 15, 0, 2 * Math.PI);
     ctx.closePath();
     ctx.fill();
+    //draw triangle (misc)
+    ctx.beginPath();
+    ctx.linewidth = "0";
+    ctx.moveTo(x - 15*Math.cos(Math.PI/6), 80 + y - 15*Math.sin(Math.PI/6));
+    ctx.lineTo(x + 15*Math.cos(Math.PI/6), 80 + y - 15*Math.sin(Math.PI/6));
+    ctx.lineTo(x, 80 + y + 15);
+    ctx.closePath();
+    ctx.fill();
     //draw text
     ctx.font = "20px Arial";
     ctx.fillStyle = "white";
     ctx.fillText("= star", x + 30, y + 8);
-    ctx.fillText("= planet", x + 30, y + 50);
+    ctx.fillText("= planet", x + 30, y + 48);
+    ctx.fillText("= miscellaneous", x + 30, y + 88);
     
 
     

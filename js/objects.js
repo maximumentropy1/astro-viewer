@@ -6,7 +6,7 @@ var objects = [
      x: 1832.2,
      y: 492.1,
      visited: false,
-     type: 'planet'},
+     type: 'misc'},
     
     {objName: "Venus",
      description: "While most planets have average temperatures of far below freezing, Venus has a surface temperature of 700K (427o C). Venus also has the thickest atmosphere out of all the rocky planets. However, this atmosphere isn’t made out of nitrogen and oxygen - it’s almost entirely made from carbon dioxide. Thick clouds of sulfuric acid blanket the planet, making observation from space of the surface extremely difficult. THE GREENHOUSE EFFECT: Venus’ high temperatures and thick atmosphere are intrinsically linked. When sunlight reaches a planet, the light’s wavelength allows it to pass the atmosphere. This light warms the planet, causing it to radiate as well. The planet, being cooler, radiates at lower wavelength. The atmosphere can absorb some of the radiation, causing it to heat up and radiate a portion of the energy back towards the planet, heating it back up. This effect is what makes Venus so hot and keeps the Earth warm enough to support life.",
