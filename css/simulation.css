@@ -1,6 +1,7 @@
 
 * {
     margin: 0;
+    box-sizing: border-box;
 }
 html, body {
     width: 100%;
@@ -9,4 +10,39 @@ html, body {
 canvas {
     /* remove the scroll bars when canvas is full screen */
     display: block;
+}
+
+.description {
+    visibility: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: min(-30%, -300px);
+    margin-top: -300px;
+    display: inline-block;
+    width: max(60%, 600px);
+    padding: 30px;
+
+    background-color: rgba(0,0,0,0.8);
+    
+    font-family: Arial;
+    font-size: 20px;
+    line-height: 1.5;
+    color: white;
+}
+.show {
+    visibility: visible;
+}
+.descriptionTxt {
+    float: left;
+    width: 60%;
+}
+img {
+    float: left;
+    width: 40%;
+}
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
 }

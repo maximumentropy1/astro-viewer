@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Night Sky Simulator</title>
-        <link href="../css/simulation.css" rel="stylesheet">
-    </head>
-    <body>
-        <canvas id="simulation"></canvas>
-        <script src="../js/objects.js"></script>
-	<script src="../js/simulation.js"></script>
-    </body>
+  <head>
+    <title>Night Sky Simulator</title>
+    <link href="../css/simulation.css" rel="stylesheet">
+  </head>
+  <body>
+    <canvas id="simulation"></canvas>
+    <!-- link in the scripts for the simulation and objects in the simulation -->
+    <script src="../js/objects.js"></script>
+    <script src="../js/simulation.js"></script>
+    <!-- define the div for the description to show up in -->
+    <div id="description" class="description">
+      <div class="descriptionTxt row">
+	<p id="content"></p>
+      </div>
+      <div>
+	<img alt="" src="https://hubblesite.org/uploads/image/display_image/282/web_print.jpg" id="descriptionImg" class="descriptionImg">
+      </div>
+    </div>
+  </body>
 </html>

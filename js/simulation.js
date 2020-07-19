@@ -18,7 +18,7 @@ var state = {
     coords: {x: 0, y: 0},
     ra: {raw: 0, hour: 0, arcmin: 0, arcsec: 0},
     d: {raw: 0, deg: 0, arcmin: 0, arcsec: 0},
-    showObj: false,
+    //tracks what object the description is currently about
     objNum: 0,
     //this variable is to tell if the mouse was clicked not on one of the objects to turn showObj off
     anyObjChange: false
@@ -30,14 +30,16 @@ img.src = '../images/betterstarmap.png';
 img.onload = function(){
     ctx.drawImage(img, state.coords.x, state.coords.y);
 };
-var objectImages = {};
-function addImage(object) {
-    //create each image and load it into the array
-    var newImage = new Image(100, 100);
-    newImage.src = object.imgLink;
-    objectImages[object.objName] = newImage;
-};
-objects.forEach(addImage);
+
+//deprecated:
+//var objectImages = {};
+//function addImage(object) {
+//    //create each image and load it into the array
+//    var newImage = new Image(100, 100);
+//    newImage.src = object.imgLink;
+//    objectImages[object.objName] = newImage;
+//};
+//objects.forEach(addImage);
 
 function clear() {
     // Store the current transformation matrix
@@ -49,60 +51,69 @@ function clear() {
     ctx.restore();
 }
 
+//deprecated:
 //function that auto wraps text for the descriptions
-function wrapText(text, x, y, maxWidth, lineHeight) {
-    var words = text.split(' ');
-    var line = '';
-    //loops through the words testing each one if it is too long
-    for(var n = 0; n < words.length; n++) {
-        var testLine = line + words[n] + ' ';
-        var metrics = ctx.measureText(testLine);
-        var testWidth = metrics.width;
-        if (testWidth > maxWidth && n > 0) {
-            ctx.fillText(line, x, y);
-            line = words[n] + ' ';
-            y += lineHeight;
-        } else {
-            line = testLine;
-        }
-    }
-    ctx.fillText(line, x, y);
-}
+//function wrapText(text, x, y, maxWidth, lineHeight) {
+//    var words = text.split(' ');
+//    var line = '';
+//    //loops through the words testing each one if it is too long
+//    for(var n = 0; n < words.length; n++) {
+//        var testLine = line + words[n] + ' ';
+//        var metrics = ctx.measureText(testLine);
+//        var testWidth = metrics.width;
+//        if (testWidth > maxWidth && n > 0) {
+//            ctx.fillText(line, x, y);
+//            line = words[n] + ' ';
+//            y += lineHeight;
+//        } else {
+//            line = testLine;
+//        }
+//    }
+//    ctx.fillText(line, x, y);
+//}
 
-function drawObject(objectID) {
+function changeDescription(objectID) {
+    //this code should run once whenever the description needs to change
     object = objects[objectID];
     
     //draw the object
 
     //draw rectangle behind image
-    ctx.beginPath();
+    //ctx.beginPath();
     //set style:
-    ctx.lineWidth = "0";
-    ctx.fillStyle = "rgba(0,0,0,0.8)";
+    //ctx.lineWidth = "0";
+    //ctx.fillStyle = "rgba(0,0,0,0.8)";
     //draw rectangle
-    ctx.rect(0, canvas.height - 500, 500, 500);
-    ctx.fill();
+    //ctx.rect(0, canvas.height - 500, 500, 500);
+    //ctx.fill();
 
-    ctx.drawImage(objectImages[object.objName], 30, canvas.height - 300, 0.3*objectImages[object.objName].naturalWidth, 0.3*objectImages[object.objName].naturalHeight);
+    //ctx.drawImage(objectImages[object.objName], 30, canvas.height - 300, 0.3*objectImages[object.objName].naturalWidth, 0.3*objectImages[object.objName].naturalHeight);
 
     //laggy code for images - loads a new one each time it is requested - even when it eventually ends up in the browser's cache the image still takes a few seconds to show up the first time
     //var image = new Image();
     //image.src = objectImages[objects[state.objNum].objName].src;
     //ctx.drawImage(image, 30, canvas.height - 330, 0.25*image.naturalWidth, 0.25*image.naturalHeight);
     
-    //bad code for descriptions:
-    //var textbox = document.createElement("P");
-    //var description = document.createTextNode(objects[state.objNum].description);
-    //textbox.appendChild(description);
-    //document.body.appendChild(textbox);
+    
+    var descriptionContent = document.getElementById("content");
+    //if the description content is not already correct, change it to be correct
+    if(descriptionContent.innerHTML != object.description) {
+	descriptionContent.innerHTML = object.description;
+    }
 
+    //if the img is not correct, change it
+    var descriptionImg = document.getElementById("descriptionImg");
+    if(descriptionImg.src != object.imgLink) {
+	descriptionImg.src = object.imgLink;
+    }
+    //deprecated code for descriptions:
     //draw title and description text:
-    ctx.font = "20px Arial";
-    ctx.fillStyle = "white";
-    wrapText(object.objName, 30, canvas.height - 450, 440, 20);
+    //ctx.font = "20px Arial";
+    //ctx.fillStyle = "white";
+    //wrapText(object.objName, 30, canvas.height - 450, 440, 20);
 
-    ctx.font = "15px Arial";
-    wrapText(object.description, 30, canvas.height - 420, 440, 20);
+    //ctx.font = "15px Arial";
+    //wrapText(object.description, 30, canvas.height - 420, 440, 20);
 }    
 function drawDots(object) {
     var x = object.x + state.coords.x
@@ -215,17 +226,10 @@ function draw() {
     ctx.fillText("= star", x + 30, y + 8);
     ctx.fillText("= planet", x + 30, y + 48);
     ctx.fillText("= miscellaneous", x + 30, y + 88);
-    
-
-    
-    //draw an object if it says too
-    if(state.showObj) {
-	drawObject(state.objNum);
-    }
 };
 
 //when mouse is pressed, store coordinates and set move variable to true so it moves
-canvas.addEventListener('mousedown', function(event) {
+window.addEventListener('mousedown', function(event) {
     state.mouse = {
         x: event.pageX - canvas.offsetLeft,
         y: event.pageY - canvas.offsetTop
@@ -236,11 +240,11 @@ canvas.addEventListener('mousedown', function(event) {
 })
 
 //when mouse is released, stop moving around the image
-canvas.addEventListener('mouseup', function(event) {
+window.addEventListener('mouseup', function(event) {
     state.drag = false;
 })
 
-canvas.addEventListener('mousemove', function(event) {
+window.addEventListener('mousemove', function(event) {
     state.mouse = {
         x: event.pageX - canvas.offsetLeft,
         y: event.pageY - canvas.offsetTop
@@ -269,17 +273,21 @@ canvas.addEventListener('mousemove', function(event) {
 })
 
 function collisions(item, index) {
+    //code for descriptions:
+    var description = document.getElementById("description");
+
     //if it the mouse is above the object
     if(item.x + 20 + state.coords.x > state.mouse.x && item.x - 20 +state.coords.x< state.mouse.x && item.y + 20 + state.coords.y> state.mouse.y && item.y - 20 + state.coords.y < state.mouse.y) {
 	state.anyObjChange = true;
 	item.visited = true;
 	if(state.objNum == index) {
-	    //if the variable is already set, toggle whether to show it or not
-	    state.showObj = !state.showObj;
+	    //change if it should be visible
+	    description.classList.toggle('show');
 	} else {
-	    state.showObj = true;
+	    description.classList.add('show');
 	    state.objNum = index;
 	}
+	changeDescription(index);
     }
 }
 
@@ -288,7 +296,7 @@ canvas.addEventListener('click', function(event) {
 
     //check if any change occured, if not turn off the display object function
     if(!state.anyObjChange) {
-	state.showObj = false;
+	document.getElementById("description").classList.remove("show");
     } else { //reset the variable for the next run
 	state.anyObjChange = false;
     }
