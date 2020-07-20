@@ -2,6 +2,7 @@
 var canvas = document.getElementById("simulation");
 var description = document.getElementById("description");
 var textbox = document.getElementById("descriptiontext");
+var header = document.getElementById("title");
 var ctx = canvas.getContext("2d");
 
 //define variables for state
@@ -187,6 +188,7 @@ function collisions(item, index) {
 	    state.objNum = index;
 	    //if the content of the div needs to be changed, change it
             textbox.innerHTML = objects[state.objNum].description;
+            header.innerHTML = objects[state.objNum].objName;
 	    //show the description and img
 	    state.showObj = true;
 	    description.classList.add('show');
