@@ -1,15 +1,8 @@
 //initialize variables for canvas and jsdataframe for dealing with data about objects
 var canvas = document.getElementById("simulation");
-var textbox = document.getElementById("description");
-textbox.style.display = "none";
+var description = document.getElementById("description");
+var textbox = document.getElementById("descriptiontext");
 var ctx = canvas.getContext("2d");
-
-window.addEventListener('resize', resizeCanvas, false);
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    draw();
-}; 
 
 //define variables for state
 var state = {
@@ -21,7 +14,7 @@ var state = {
     ra: {raw: 0, hour: 0, arcmin: 0, arcsec: 0},
     d: {raw: 0, deg: 0, arcmin: 0, arcsec: 0},
     showObj: false,
-    objNum: 0,
+    objNum: -1,
     //this variable is to tell if the mouse was clicked not on one of the objects to turn showObj off
     anyObjChange: false
 }
@@ -51,20 +44,15 @@ function clear() {
     ctx.restore();
 }
 
-
+//draws the image on the canvas
 function drawObject(objectID) {
     object = objects[objectID];
     
-    //draw the object
-
-    //draw rectangle behind image
-    ctx.beginPath();
-    //set style:
-    ctx.lineWidth = "0";
-    ctx.fillStyle = "rgba(0,0,0,0.8)";
     //draw object image
-    ctx.drawImage(objectImages[object.objName], canvas.width-450, canvas.height - 450, 0.4*objectImages[object.objName].naturalWidth, 0.4*objectImages[object.objName].naturalHeight);
-}    
+    ctx.drawImage(objectImages[object.objName], canvas.width - 450, canvas.height - 450, 400, 400);
+}
+
+
 function drawDots(object) {
     var x = object.x + state.coords.x
     var y = object.y + state.coords.y
@@ -184,6 +172,37 @@ function draw() {
     }
 };
 
+
+function collisions(item, index) {
+    //if it the mouse is above the object
+    if(item.x + 20 + state.coords.x > state.mouse.x && item.x - 20 +state.coords.x< state.mouse.x && item.y + 20 + state.coords.y> state.mouse.y && item.y - 20 + state.coords.y < state.mouse.y) {
+	state.anyObjChange = true;
+	item.visited = true;
+	if(state.objNum == index) {
+	    //if the variable is already set, toggle whether to show it or not
+	    state.showObj = !state.showObj;
+	    //toggles the class that makes the paragraph visible
+	    description.classList.toggle('show');
+	} else {
+	    state.objNum = index;
+	    //if the content of the div needs to be changed, change it
+            textbox.innerHTML = objects[state.objNum].description;
+	    //show the description and img
+	    state.showObj = true;
+	    description.classList.add('show');
+	}
+    }
+}
+
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    draw();
+}; 
+
+
+//this one is canvas so that if you click on the div while it is visible it does not move to background, but the others are window so that it keeps moving if you move across the div after mousedown
 //when mouse is pressed, store coordinates and set move variable to true so it moves
 canvas.addEventListener('mousedown', function(event) {
     state.mouse = {
@@ -196,11 +215,11 @@ canvas.addEventListener('mousedown', function(event) {
 })
 
 //when mouse is released, stop moving around the image
-canvas.addEventListener('mouseup', function(event) {
+window.addEventListener('mouseup', function(event) {
     state.drag = false;
 })
 
-canvas.addEventListener('mousemove', function(event) {
+window.addEventListener('mousemove', function(event) {
     state.mouse = {
         x: event.pageX - canvas.offsetLeft,
         y: event.pageY - canvas.offsetTop
@@ -228,48 +247,22 @@ canvas.addEventListener('mousemove', function(event) {
     draw();
 })
 
-function collisions(item, index) {
-    //if it the mouse is above the object
-    if(item.x + 20 + state.coords.x > state.mouse.x && item.x - 20 +state.coords.x< state.mouse.x && item.y + 20 + state.coords.y> state.mouse.y && item.y - 20 + state.coords.y < state.mouse.y) {
-	state.anyObjChange = true;
-	item.visited = true;
-	if(state.objNum == index) {
-	    //if the variable is already set, toggle whether to show it or not
-	    state.showObj = !state.showObj;
-	} else {
-	    state.showObj = true;
-	    state.objNum = index;
-	}
-    }
-}
-function addDescription() {
-    var textbox = document.getElementById("description");
-    var node = document.createTextNode(objects[state.objNum].description);
-    textbox.appendChild(node);
-    textbox.style.display = "block";
-}
-canvas.addEventListener('click', function(event) {
+
+window.addEventListener('click', function(event) {
     objects.forEach(collisions);
 
     //check if any change occured, if not turn off the display object function
     if(!state.anyObjChange) {
 	state.showObj = false;
+	description.classList.remove('show');
     } else { //reset the variable for the next run
 	state.anyObjChange = false;
     }
     
     //make sure to draw the panel again in case it needs to cover up the old one or draw a new one
     draw();
-    console.log(state.showObj);
-    console.log(textbox);
-    if (state.showObj) {
-        addDescription();
-    }
-    else {
-        textbox.innerHTML = '';
-        textbox.style.display = "none";
-    }
 });
+
 
 window.addEventListener('resize', resizeCanvas, false);
 
