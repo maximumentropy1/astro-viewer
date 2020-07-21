@@ -206,6 +206,20 @@ function link(id) {
     draw();
 }
 
+//this function replaces the currently displayed div and object with a term and explanation
+function termLink(id) {
+    console.log(id);
+    //stop displaying the image that was displayed previously
+    state.showObj = false;
+    //make sure it knows to change the text in the texbox back after
+    state.objNum = -1;
+    textbox.innerHTML = terms[id].explanation;
+    header.innerHTML = terms[id].termName;
+    //make the textbox wide cause there is not picture and one of the explanations is really long
+    description.classList.add('wide');
+    draw();
+}
+
 function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -260,6 +274,9 @@ window.addEventListener('mousemove', function(event) {
 
 
 canvas.addEventListener('click', function(event) {
+    //remove the class that makes the description wide for the terms
+    description.classList.remove('wide');
+    
     objects.forEach(collisions);
 
     //check if any change occured, if not turn off the display object function

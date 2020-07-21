@@ -1,4 +1,4 @@
-//code for objects goes here:
+//stores an array of objects that can be selected
 var objects = [
     {objName: "Mercury",
      description: "Mercury is a world of extremes. Being the closest planet to the sun, it’s exposed to much higher levels of radiation than the Earth, causing its daytime side to become extremely hot. Due to its lack of an  atmosphere to trap heat, Mercury is also freezing cold on its nighttime side. Mercury also has the most eccentric (stretched-out) orbit. This means that an observer on Mercury would see a differently-sized sun depending on the time of year.",
@@ -57,7 +57,7 @@ var objects = [
      type: 'planet'},
 
     {objName: "Horsehead Nebula",
-     description: "<b>Nebulae and Star Formation</b><br>Discovered by the Hubble Space Telescope, the Horsehead Nebula was named for its distinctive shape. Note that the image is false color - all Hubble images are taken in black and white and artificially colored.<br><br>Nebulae like the Horsehead Nebula are massive clouds of dust and gas, often illuminated and ionized by stars around it and within it. Within nebulae, clouds of gas collapse into stars, earning nebulae the nickname “stellar nurseries”. It has been theorized that supernovae [add link to crab nebula can create shock waves which compress gas in these nebulae, generating rapid star formation.",
+     description: "<b>Nebulae and Star Formation</b><br>Discovered by the Hubble Space Telescope, the Horsehead Nebula was named for its distinctive shape. Note that the image is false color - all Hubble images are taken in black and white and artificially colored.<br><br>Nebulae like the Horsehead Nebula are massive clouds of dust and gas, often illuminated and ionized by stars around it and within it. Within nebulae, clouds of gas collapse into stars, earning nebulae the nickname “stellar nurseries”. It has been theorized that <a class='link' onclick='link(9)'>supernovae</a> can create shock waves which compress gas in these nebulae, generating rapid star formation.",
      imgLink: "https://hubblesite.org/uploads/image/display_image/3165/STScI-H-p1312a-d2560x1440.png",
      x: 1977.5,
      y: 658.03,
@@ -79,4 +79,10 @@ var objects = [
      y: 483.9,
      visited: false,
      type: 'misc'}
+];
+
+var terms = [
+    {termName: "Radiation, Wavelength, Spectra, Photon, Absorb",
+     explanation: "Look at any source of light, such as a lightbulb, a glow in the dark sticker, or the sun (actually, don’t look at the sun). All of these sources are emitting energy and sending it out in the form of particles, called photons.<br><br>A photon is a tiny massless particle that moves at light speed. <br><br>When energy is sent by emitting, or radiating particles like photons, it is known as radiation. <br><br>However, in a complicated twist of physics, light is also like a wave. It oscillates up and down at different speeds, carrying energy across space. These waves of light are known as electromagnetic waves. X-rays, UV rays, microwaves, and visible light are all electromagnetic waves oscillating at different speeds.<br><br>How fast light is oscillating is referred to as its frequency. The distance between crests (tops) of a wave is known as the wavelength.  Since all light moves forward in space at the same speed, the higher the frequency, the lower the wavelength. Higher frequency waves carry more energy.<br><br>Real light from any source comes in the form of photons, which carry different amounts of energy and therefore come with different wavelengths, with some wavelengths being more common than others. This range of light is known a spectrum. Spectra is the plural of spectrum, and is used to refer to the practice of analyzing the amounts of each wavelength in a sample of light for more information.<br><br>Everything radiates energy. The brightness with which they radiate and the wavelengths at which they radiate depend on their temperature - hot things radiate in lower wavelengths and higher frequencies. The reason why most things are not glowing to us is because the frequencies of their radiation are too low for us to see. <br><br>Individual toms can absorb photons. However, for complicated chemistry reasons, specific atoms only absorb specific photons at set frequencies. For this reason, the frequencies absorbed by certain atoms will have less photons. When a spectrum is missing certain wavelengths that are defined by certain elements, it is known as an absorption spectrum."
+    }
 ];

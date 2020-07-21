@@ -14,7 +14,6 @@ canvas {
     position: absolute;
     bottom: 200px;
     left: min(7%, 100px);
-    width: max(500px, 45%);
     background-color: white;
     border-radius: 30px;
     border-style: solid;
@@ -27,6 +26,7 @@ canvas {
     visibility: hidden;
     font-family: Arial;
     line-height: 1.5;
+    width: max(500px, 45%);
 }
 .show {
     visibility: visible;
@@ -37,4 +37,7 @@ canvas {
 }
 .link:hover {
     color: #515;
+}
+.wide {
+    width: max(500px, 80%);
 }
