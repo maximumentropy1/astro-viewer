@@ -60,9 +60,9 @@ function drawDots(object) {
     
     //check if it has been visited before
     if(object.visited) {
-	ctx.fillStyle = "rgb(50,75,100)";
+	ctx.fillStyle = "rgb(200,50,50)";
     } else {
-	ctx.fillStyle = "rgb(100,150,200)";
+	ctx.fillStyle = "rgb(255,0,0)";
     }
 
     if(object.type == 'planet') {
@@ -196,6 +196,15 @@ function collisions(item, index) {
     }
 }
 
+//this function changes the selected object
+function link(id) {
+    console.log(id);
+    state.objNum = id;
+    //if the content of the div needs to be changed, change it
+    textbox.innerHTML = objects[state.objNum].description;
+    header.innerHTML = objects[state.objNum].objName;
+    draw();
+}
 
 function resizeCanvas() {
     canvas.width = window.innerWidth;
@@ -250,7 +259,7 @@ window.addEventListener('mousemove', function(event) {
 })
 
 
-window.addEventListener('click', function(event) {
+canvas.addEventListener('click', function(event) {
     objects.forEach(collisions);
 
     //check if any change occured, if not turn off the display object function
@@ -264,6 +273,7 @@ window.addEventListener('click', function(event) {
     //make sure to draw the panel again in case it needs to cover up the old one or draw a new one
     draw();
 });
+
 
 
 window.addEventListener('resize', resizeCanvas, false);

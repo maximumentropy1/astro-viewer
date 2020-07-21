@@ -14,7 +14,7 @@ canvas {
     position: absolute;
     bottom: 200px;
     left: min(7%, 100px);
-    width: 500px;
+    width: max(500px, 45%);
     background-color: white;
     border-radius: 30px;
     border-style: solid;
@@ -30,4 +30,11 @@ canvas {
 }
 .show {
     visibility: visible;
+}
+.link {
+    text-decoration: none;
+    color: purple;
+}
+.link:hover {
+    color: #515;
 }
