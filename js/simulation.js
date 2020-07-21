@@ -1,13 +1,9 @@
 //initialize variables for canvas and jsdataframe for dealing with data about objects
 var canvas = document.getElementById("simulation");
+var description = document.getElementById("description");
+var textbox = document.getElementById("descriptiontext");
+var header = document.getElementById("title");
 var ctx = canvas.getContext("2d");
-
-window.addEventListener('resize', resizeCanvas, false);
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    draw();
-}; 
 
 //define variables for state
 var state = {
@@ -19,7 +15,7 @@ var state = {
     ra: {raw: 0, hour: 0, arcmin: 0, arcsec: 0},
     d: {raw: 0, deg: 0, arcmin: 0, arcsec: 0},
     showObj: false,
-    objNum: 0,
+    objNum: -1,
     //this variable is to tell if the mouse was clicked not on one of the objects to turn showObj off
     anyObjChange: false
 }
@@ -49,61 +45,15 @@ function clear() {
     ctx.restore();
 }
 
-//function that auto wraps text for the descriptions
-function wrapText(text, x, y, maxWidth, lineHeight) {
-    var words = text.split(' ');
-    var line = '';
-    //loops through the words testing each one if it is too long
-    for(var n = 0; n < words.length; n++) {
-        var testLine = line + words[n] + ' ';
-        var metrics = ctx.measureText(testLine);
-        var testWidth = metrics.width;
-        if (testWidth > maxWidth && n > 0) {
-            ctx.fillText(line, x, y);
-            line = words[n] + ' ';
-            y += lineHeight;
-        } else {
-            line = testLine;
-        }
-    }
-    ctx.fillText(line, x, y);
-}
-
+//draws the image on the canvas
 function drawObject(objectID) {
     object = objects[objectID];
     
-    //draw the object
+    //draw object image
+    ctx.drawImage(objectImages[object.objName], canvas.width - 450, canvas.height - 450, 400, 400);
+}
 
-    //draw rectangle behind image
-    ctx.beginPath();
-    //set style:
-    ctx.lineWidth = "0";
-    ctx.fillStyle = "rgba(0,0,0,0.8)";
-    //draw rectangle
-    ctx.rect(0, canvas.height - 500, 500, 500);
-    ctx.fill();
 
-    ctx.drawImage(objectImages[object.objName], 30, canvas.height - 300, 0.3*objectImages[object.objName].naturalWidth, 0.3*objectImages[object.objName].naturalHeight);
-
-    //laggy code for images - loads a new one each time it is requested - even when it eventually ends up in the browser's cache the image still takes a few seconds to show up the first time
-    //var image = new Image();
-    //image.src = objectImages[objects[state.objNum].objName].src;
-    //ctx.drawImage(image, 30, canvas.height - 330, 0.25*image.naturalWidth, 0.25*image.naturalHeight);
-    
-    //bad code for descriptions:
-    //var textbox = document.createElement("P");
-    //var description = document.createTextNode(objects[state.objNum].description);
-    //textbox.appendChild(description);
-    //document.body.appendChild(textbox);
-
-    //draw title and description text:
-    ctx.font = "20px Arial";
-    ctx.fillStyle = "white";
-    wrapText(object.objName, 30, canvas.height - 450, 440, 20);
-
-    ctx.font = "15px Arial";
-    wrapText(object.description, 30, canvas.height - 420, 440, 20);
-}    
 function drawDots(object) {
     var x = object.x + state.coords.x
     var y = object.y + state.coords.y
@@ -175,7 +125,7 @@ function draw() {
     ctx.beginPath();
     ctx.fillStyle = "rgba(0,0,0,0.8)";
     //draw rctangle
-    ctx.rect(canvas.width - 200, 0, 200, 130);
+    ctx.rect(canvas.width - 200, 0, 200, 150);
     ctx.fill();
     //draw legend
     ctx.fillStyle = "rgb(100, 150, 200)";
@@ -201,21 +151,20 @@ function draw() {
     ctx.arc(x, y + 40, 15, 0, 2 * Math.PI);
     ctx.closePath();
     ctx.fill();
-    //draw triangle (misc)
+    //draw triangle
     ctx.beginPath();
     ctx.linewidth = "0";
     ctx.moveTo(x - 15*Math.cos(Math.PI/6), 80 + y - 15*Math.sin(Math.PI/6));
     ctx.lineTo(x + 15*Math.cos(Math.PI/6), 80 + y - 15*Math.sin(Math.PI/6));
     ctx.lineTo(x, 80 + y + 15);
     ctx.closePath();
-    ctx.fill();
+    ctx.fill();	
     //draw text
     ctx.font = "20px Arial";
     ctx.fillStyle = "white";
     ctx.fillText("= star", x + 30, y + 8);
-    ctx.fillText("= planet", x + 30, y + 48);
-    ctx.fillText("= miscellaneous", x + 30, y + 88);
-    
+    ctx.fillText("= planet", x + 30, y + 50);
+    ctx.fillText("= miscellaneous", x + 30, y + 92);
 
     
     //draw an object if it says too
@@ -224,6 +173,38 @@ function draw() {
     }
 };
 
+
+function collisions(item, index) {
+    //if it the mouse is above the object
+    if(item.x + 20 + state.coords.x > state.mouse.x && item.x - 20 +state.coords.x< state.mouse.x && item.y + 20 + state.coords.y> state.mouse.y && item.y - 20 + state.coords.y < state.mouse.y) {
+	state.anyObjChange = true;
+	item.visited = true;
+	if(state.objNum == index) {
+	    //if the variable is already set, toggle whether to show it or not
+	    state.showObj = !state.showObj;
+	    //toggles the class that makes the paragraph visible
+	    description.classList.toggle('show');
+	} else {
+	    state.objNum = index;
+	    //if the content of the div needs to be changed, change it
+            textbox.innerHTML = objects[state.objNum].description;
+            header.innerHTML = objects[state.objNum].objName;
+	    //show the description and img
+	    state.showObj = true;
+	    description.classList.add('show');
+	}
+    }
+}
+
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    draw();
+}; 
+
+
+//this one is canvas so that if you click on the div while it is visible it does not move to background, but the others are window so that it keeps moving if you move across the div after mousedown
 //when mouse is pressed, store coordinates and set move variable to true so it moves
 canvas.addEventListener('mousedown', function(event) {
     state.mouse = {
@@ -236,11 +217,11 @@ canvas.addEventListener('mousedown', function(event) {
 })
 
 //when mouse is released, stop moving around the image
-canvas.addEventListener('mouseup', function(event) {
+window.addEventListener('mouseup', function(event) {
     state.drag = false;
 })
 
-canvas.addEventListener('mousemove', function(event) {
+window.addEventListener('mousemove', function(event) {
     state.mouse = {
         x: event.pageX - canvas.offsetLeft,
         y: event.pageY - canvas.offsetTop
@@ -268,27 +249,14 @@ canvas.addEventListener('mousemove', function(event) {
     draw();
 })
 
-function collisions(item, index) {
-    //if it the mouse is above the object
-    if(item.x + 20 + state.coords.x > state.mouse.x && item.x - 20 +state.coords.x< state.mouse.x && item.y + 20 + state.coords.y> state.mouse.y && item.y - 20 + state.coords.y < state.mouse.y) {
-	state.anyObjChange = true;
-	item.visited = true;
-	if(state.objNum == index) {
-	    //if the variable is already set, toggle whether to show it or not
-	    state.showObj = !state.showObj;
-	} else {
-	    state.showObj = true;
-	    state.objNum = index;
-	}
-    }
-}
 
-canvas.addEventListener('click', function(event) {
+window.addEventListener('click', function(event) {
     objects.forEach(collisions);
 
     //check if any change occured, if not turn off the display object function
     if(!state.anyObjChange) {
 	state.showObj = false;
+	description.classList.remove('show');
     } else { //reset the variable for the next run
 	state.anyObjChange = false;
     }
@@ -296,7 +264,8 @@ canvas.addEventListener('click', function(event) {
     //make sure to draw the panel again in case it needs to cover up the old one or draw a new one
     draw();
 });
-	
+
+
 window.addEventListener('resize', resizeCanvas, false);
 
 resizeCanvas();
