@@ -86,3 +86,13 @@ var terms = [
      explanation: "Look at any source of light, such as a lightbulb, a glow in the dark sticker, or the sun (actually, don’t look at the sun). All of these sources are emitting energy and sending it out in the form of particles, called photons.<br><br>A photon is a tiny massless particle that moves at light speed. <br><br>When energy is sent by emitting, or radiating particles like photons, it is known as radiation. <br><br>However, in a complicated twist of physics, light is also like a wave. It oscillates up and down at different speeds, carrying energy across space. These waves of light are known as electromagnetic waves. X-rays, UV rays, microwaves, and visible light are all electromagnetic waves oscillating at different speeds.<br><br>How fast light is oscillating is referred to as its frequency. The distance between crests (tops) of a wave is known as the wavelength.  Since all light moves forward in space at the same speed, the higher the frequency, the lower the wavelength. Higher frequency waves carry more energy.<br><br>Real light from any source comes in the form of photons, which carry different amounts of energy and therefore come with different wavelengths, with some wavelengths being more common than others. This range of light is known a spectrum. Spectra is the plural of spectrum, and is used to refer to the practice of analyzing the amounts of each wavelength in a sample of light for more information.<br><br>Everything radiates energy. The brightness with which they radiate and the wavelengths at which they radiate depend on their temperature - hot things radiate in lower wavelengths and higher frequencies. The reason why most things are not glowing to us is because the frequencies of their radiation are too low for us to see. <br><br>Individual toms can absorb photons. However, for complicated chemistry reasons, specific atoms only absorb specific photons at set frequencies. For this reason, the frequencies absorbed by certain atoms will have less photons. When a spectrum is missing certain wavelengths that are defined by certain elements, it is known as an absorption spectrum."
     }
 ];
+
+var zoomins = [
+    {name: "Centauri",
+     objName: "Centauri",
+     imgLink: "https://upload.wikimedia.org/wikipedia/commons/6/61/Alpha%2C_Beta_and_Proxima_Centauri_%281%29.jpg",
+     x: 1008.3,
+     y: 1073.5,
+     type: "misc"
+    }
+];
