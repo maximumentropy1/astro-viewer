@@ -16,8 +16,12 @@ var state = {
     d: {raw: 0, deg: 0, arcmin: 0, arcsec: 0},
     showObj: false,
     objNum: -1,
+    //this variable tells whether a zoom in is active:
+    zoomIn: false,
+    zoomNum: 0,
     //this variable is to tell if the mouse was clicked not on one of the objects to turn showObj off
-    anyObjChange: false
+    anyObjChange: false,
+    anyZoomChange: false
 }
 
 //initialize the image
@@ -27,13 +31,21 @@ img.onload = function(){
     ctx.drawImage(img, state.coords.x, state.coords.y);
 };
 var objectImages = {};
+var zoomInImages = {};
 function addImage(object) {
     //create each image and load it into the array
     var newImage = new Image(100, 100);
     newImage.src = object.imgLink;
     objectImages[object.objName] = newImage;
 };
+//adds images for zoomins
+function addZoomInImage(object) {
+    var newImage = new Image(400, 400);
+    newImage.src = object.imgLink;
+    zoomInImages[object.name] = newImage;
+};
 objects.forEach(addImage);
+zoomins.forEach(addZoomInImage);
 
 function clear() {
     // Store the current transformation matrix
@@ -52,6 +64,11 @@ function drawObject(objectID) {
     //draw object image
     ctx.drawImage(objectImages[object.objName], canvas.width - 450, canvas.height - 450, 400, 400);
 }
+//draws images for zoomins, called by the draw function
+function drawZoomIn(zoomNum) {
+    zoomIn = zoomins[zoomNum];
+    ctx.drawImage(zoomInImages[zoomIn.name], canvas.width/2 - 300,  canvas.height/2 - 300, 600, 600);
+}
 
 
 function drawDots(object) {
@@ -60,9 +77,9 @@ function drawDots(object) {
     
     //check if it has been visited before
     if(object.visited) {
-	ctx.fillStyle = "rgb(50,75,100)";
+	ctx.fillStyle = "rgb(200,50,50)";
     } else {
-	ctx.fillStyle = "rgb(100,150,200)";
+	ctx.fillStyle = "rgb(255,0,0)";
     }
 
     if(object.type == 'planet') {
@@ -103,7 +120,7 @@ function draw() {
 
     //draw circles and names
     objects.forEach(drawDots);
-
+    zoomins.forEach(drawDots);
 
     
     //draw rectangle behind words:
@@ -171,6 +188,10 @@ function draw() {
     if(state.showObj) {
 	drawObject(state.objNum);
     }
+    //draw zoomins if it says to
+    if(state.zoomIn) {
+	drawZoomIn(state.zoomNum);
+    }
 };
 
 
@@ -196,6 +217,47 @@ function collisions(item, index) {
     }
 }
 
+function zoomInCollisions(item, index) {
+    if(item.x + 20 + state.coords.x > state.mouse.x && item.x - 20 +state.coords.x< state.mouse.x && item.y + 20 + state.coords.y> state.mouse.y && item.y - 20 + state.coords.y < state.mouse.y) {
+	//turn off the description:
+	state.showObj = false;
+	state.anyZoomChange = true;
+	description.classList.remove('show');
+	//add the current popup to the state variable
+	if(state.zoomNum == index) {
+	    //toggle whether it displays or not
+	    state.zoomIn = !state.zoomIn;
+	} else {
+	    state.zoomNum = index;
+	    state.zoomIn = true;
+	}
+    }
+}
+    
+
+//this function changes the selected object
+function link(id) {
+    console.log(id);
+    state.objNum = id;
+    //if the content of the div needs to be changed, change it
+    textbox.innerHTML = objects[state.objNum].description;
+    header.innerHTML = objects[state.objNum].objName;
+    draw();
+}
+
+//this function replaces the currently displayed div and object with a term and explanation
+function termLink(id) {
+    console.log(id);
+    //stop displaying the image that was displayed previously
+    state.showObj = false;
+    //make sure it knows to change the text in the texbox back after
+    state.objNum = -1;
+    textbox.innerHTML = terms[id].explanation;
+    header.innerHTML = terms[id].termName;
+    //make the textbox wide cause there is not picture and one of the explanations is really long
+    description.classList.add('wide');
+    draw();
+}
 
 function resizeCanvas() {
     canvas.width = window.innerWidth;
@@ -211,9 +273,15 @@ canvas.addEventListener('mousedown', function(event) {
         x: event.pageX - canvas.offsetLeft,
         y: event.pageY - canvas.offsetTop
     }
-    state.dragStart = state.mouse;
-    state.drag = true;
-
+    var onZoomIn = false;
+    if(state.mouse.x + 300 > canvas.width/2 && state.mouse.x - 300 < canvas.width/2 && state.mouse.y + 300 > canvas.height/2 && state.mouse.y - 300 < canvas.height/2 && state.zoomIn) {
+	onZoomIn = true;
+    }
+    //if the mouse is not on top of the picture, trigger the script that drags the background image
+    if(!onZoomIn) {
+	state.dragStart = state.mouse;
+	state.drag = true;
+    }
 })
 
 //when mouse is released, stop moving around the image
@@ -239,6 +307,7 @@ window.addEventListener('mousemove', function(event) {
 
     if (state.drag) {
         state.dragEnd = state.mouse;
+	//limit the image to staying on the page
         state.coords = {
             x: Math.min(Math.max(state.coords.x + (state.dragEnd.x - state.dragStart.x), canvas.width - img.width), 0),
             y: Math.min(Math.max(state.coords.y + (state.dragEnd.y - state.dragStart.y),  canvas.height - img.height), 0)
@@ -250,9 +319,27 @@ window.addEventListener('mousemove', function(event) {
 })
 
 
-window.addEventListener('click', function(event) {
-    objects.forEach(collisions);
+canvas.addEventListener('click', function(event) {
+    //remove the class that makes the description wide for the terms
+    description.classList.remove('wide');
+    
+    var onZoomIn = false;
+    if(state.mouse.x + 300 > canvas.width/2 && state.mouse.x - 300 < canvas.width/2 && state.mouse.y + 300 > canvas.height/2 && state.mouse.y - 300 < canvas.height/2 && state.zoomIn) {
+	onZoomIn = true;
+    }
+    //only run the code for collisions with objects if they are not covered up by a zoom in
+    if(!onZoomIn) {
+	objects.forEach(collisions);
+    }
+    
+    zoomins.forEach(zoomInCollisions);
 
+    //check if it was clicked on something other than a zoomin while a zoomin was active, if so turn it off
+    if(!state.anyZoomChange && state.zoomIn && !onZoomIn) {
+	state.zoomIn = false;
+    } else {
+	state.anyZoomChange = false;
+    }
     //check if any change occured, if not turn off the display object function
     if(!state.anyObjChange) {
 	state.showObj = false;
@@ -264,6 +351,7 @@ window.addEventListener('click', function(event) {
     //make sure to draw the panel again in case it needs to cover up the old one or draw a new one
     draw();
 });
+
 
 
 window.addEventListener('resize', resizeCanvas, false);
