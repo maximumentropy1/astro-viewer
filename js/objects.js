@@ -33,7 +33,7 @@ var objects = [
      type: 'planet'},
 
     {objName: "Saturn",
-     description: "Saturn was once thought to have “ears” due to the mysterious bumps on its sides. Once better telescopes were created, it was found out that these were actually rings. These rings are made from suspended ice crystals and rocks orbiting around Saturn.<br>Chemically, Saturn is almost entirely hydrogen and helium, similar to Jupiter and formed in a similar way. However, its large rings make it visually distinctive from the other gas giants.<br><br><b>Tidal Forces</b><br>Gravity from one object pulls more strongly on nearby objects than on far away objects. This causes an effect known as a tidal force, where the difference in gravitational forces within an object slowly pulls it apart. All bodies within a gravitational field feel tidal forces, and bodies closer to the center of a gravitational field feel stronger tidal forces. Within a certain distance, known as the Roche limit, tidal forces exceed the gravity pulling the orbiting object together and pulls it apart. The resulting debris still orbits the central body, creating rings. Saturn’s many rings are composed of the ripped up meteoroids and moons that came too close to it.",
+     description: "Saturn was once thought to have “ears” due to the mysterious bumps on its sides. Once better telescopes were created, it was found out that these were actually rings. These rings are made from suspended ice crystals and rocks orbiting around Saturn.<br>Chemically, Saturn is almost entirely hydrogen and helium, similar to Jupiter and formed in a similar way. However, its large rings make it visually distinctive from the other gas giants.<br><br><b>Tidal Forces</b><br>Gravity from one object pulls more strongly on nearby objects than on far away objects. This causes an effect known as a tidal force, where the difference in gravitational forces within an object slowly pulls it apart. All bodies within a gravitational field feel tidal forces, and bodies closer to the center of a gravitational field feel stronger tidal forces. Within a certain distance, known as the <b>Roche limit</b>, tidal forces exceed the gravity pulling the orbiting object together and pulls it apart. The resulting debris still orbits the central body, creating rings. Saturn’s many rings are composed of the ripped up meteoroids and moons that came too close to it.",
      imgLink: "https://hubblesite.org/uploads/image/display_image/4565/STSCI-H-p1943a-d-1280x720.png",
      x: 412.25,
      y: 784.5,
@@ -121,7 +121,7 @@ var objects = [
      type: 'misc'},
 
     {objName: "Beta Centauri",
-     description: "Beta Centauri isn’t related to Alpha Centauri in any way except for being in a similar place in the sky. Beta Centauri is much further away than Alpha Centauri. However, in reality, Beta Centauri is actually brighter than Alpha Centauri, but it is much further away from us. Beta Centauri is composed of three stars orbiting each other, all of them massive B-type (link to Betelgeuse) stars.",
+     description: "Beta Centauri isn’t related to Alpha Centauri in any way except for being in a similar place in the sky. Beta Centauri is much further away than Alpha Centauri. However, in reality, Beta Centauri is actually brighter than Alpha Centauri, but it is much further away from us. Beta Centauri is composed of three stars orbiting each other, all of them massive <a class='link' onclick='link(22)'>B-type stars</a>.",
      imgLink: "",
      x: -100,
      y: -100,
@@ -145,10 +145,10 @@ var objects = [
      type: 'misc'},
 
     {objName: "M87's Black Hole and Quasar",
-     description: "M87 is a massive elliptical galaxy in the virgo supercluster. Like all large galaxies, at the center of M87 is a supermassive black hole. This black hole contains the mass of more than a billion suns (which is still a tiny fraction of M87’s mass). From this black hole shoots a relativistic jet that stretches thousands of light years. This black hole is relatively famous since it became the first black hole to have a picture taken of it. In reality, the picture isn’t a picture of the black hole itself (which is obviously black), but a picture of its accretion disk.<br><br><b>Black Holes and Quasars</b><br><br>Black holes are places where gravity has surpassed any possible opposing forces and collapsed into an infinitely small point. This usually happens after a very, very large star has run out of fuel and can’t support itself anymore. They grow by accreting mass - that is, having stuff fall in them. Due to their small size, their Roche limit (link to saturn) is relatively far away from them in relation to their radius. This means that things falling into them will be stretched and torn apart. While it may seem like black holes are giant vacuum cleaners, they don’t intrinsically have more “sucking power” than anything else their mass. As mass falls towards a black hole, it orbits the black hole in a giant ring (like Saturn!) called an accretion disk. Mass falling into black holes speeds up - since temperature is just average kinetic energy, this makes them very hot. Hot things radiate energy, making things falling into black holes very, very bright. In 1959, scientists were stunned by a very, very bright radio source. Confused, they called this source a quasi-stellar radio source, or quasar. Nowadays, quasar is a general term used to describe these extremely bright black holes that are currently busy consuming matter",
+     description: "M87 is a massive elliptical galaxy in the virgo supercluster. Like all large galaxies, at the center of M87 is a supermassive black hole. This black hole contains the mass of more than a billion suns (which is still a tiny fraction of M87’s mass). From this black hole shoots a relativistic jet that stretches thousands of light years. This black hole is relatively famous since it became the first black hole to have a picture taken of it. In reality, the picture isn’t a picture of the black hole itself (which is obviously black), but a picture of its accretion disk.<br><br><b>Black Holes and Quasars</b><br><br>Black holes are places where gravity has surpassed any possible opposing forces and collapsed into an infinitely small point. This usually happens after a very, very large star has run out of fuel and can’t support itself anymore. They grow by accreting mass - that is, having stuff fall in them. Due to their small size, their <a class='link' onclick='link(4)'>Roche limit</a> is relatively far away from them in relation to their radius. This means that things falling into them will be stretched and torn apart. While it may seem like black holes are giant vacuum cleaners, they don’t intrinsically have more “sucking power” than anything else their mass. As mass falls towards a black hole, it orbits the black hole in a giant ring <a class='linl onclick='link(4)'>(like Saturn!)</a> called an accretion disk. Mass falling into black holes speeds up - since temperature is just average kinetic energy, this makes them very hot. Hot things radiate energy, making things falling into black holes very, very bright. In 1959, scientists were stunned by a very, very bright radio source. Confused, they called this source a quasi-stellar radio source, or quasar. Nowadays, quasar is a general term used to describe these extremely bright black holes that are currently busy consuming matter",
      imgLink: "https://cdn.britannica.com/s:700x500/26/205226-050-B2621B00/Black-hole-M87-centre-evidence-supermassive-black.jpg",
-     x: 1240,
-     y: 552.3,
+     x: -100,
+     y: -100,
      visited: false,
      type: 'misc'},
 
@@ -161,7 +161,7 @@ var objects = [
      type: 'misc'},
 
     {objName: "Cat's Eye Nebula",
-     description: "This image of the Cat’s Eye Nebula shows how beautiful some astronomical phenomena can be. The brilliant colors are artificially added - The Hubble Space Telescope (HST) does not record images in visible wavelengths. The nebula (giant cloud of gas) itself is slowly expanding and moving away from the central star. In the middle is a Wolf-Rayet star, a kind of very hot O-type (see Betelgeuse) star. The star in the middle blew away all of its hydrogen outer layers, which now make up the nebulae. Now fusing heavier elements, the star 9will eventually run out of things to fuse and turn into a white dwarf (see Sirius). This kind of nebula made from the thrown-off outer layers of stars is known as a planetary nebula, despite having nothing to do with planets.",
+     description: "This image of the Cat’s Eye Nebula shows how beautiful some astronomical phenomena can be. The brilliant colors are artificially added - The Hubble Space Telescope (HST) does not record images in visible wavelengths. The nebula (giant cloud of gas) itself is slowly expanding and moving away from the central star. In the middle is a Wolf-Rayet star, a kind of very hot O-type <a class='link' onclick='link(23)'>(see Betelgeuse)</a> star. The star in the middle blew away all of its hydrogen outer layers, which now make up the nebulae. Now fusing heavier elements, the star 9will eventually run out of things to fuse and turn into a white dwarf <a class='link' onclick='link(22)'>(see Sirius)</a>. This kind of nebula made from the thrown-off outer layers of stars is known as a planetary nebula, despite having nothing to do with planets.",
      imgLink: "https://hubblesite.org/uploads/image/display_image/1578/STScI-H-p0427a-d2560x1440.png",
      x: 650.32,
      y: 166.66,
@@ -169,7 +169,7 @@ var objects = [
      type: 'misc'},
 
     {objName: "Sirius",
-     description: "Sirius is the brightest star in the night sky, not Polaris. Sirius is also known as the “dog star” for its position in Canis Major (and is probably what the dog-man Sirius Black in Harry Potter is named after). Despite appearing as one star to us, Sirius is actually a binary system (see Alpha Centauri), with one star larger than our sun (Sirius A) and one tiny redder star (Sirius B). <br><br><b>Stellar Evolution and the HR Diagram</b><br><br>All stars change, grow, and shrink over their lifetime. To show where a star has been and where it’s going, astronomers keep track of their position on the H-R diagram. The H-R diagram, or Hertzsprung-Russell diagram, is a chart with temperature/color (hotter stars are always bluer, so they mean the same thing) on one axis and luminosity on the other. For historical reasons, increasing temperature goes right to left while increasing luminosity goes down to up. Stars start as prostars, big clumps of gas heated only by gravitational contraction, far right and down low. As fusion starts, they begin to climb to the left and up as they get hotter and brighter. Depending on the star’s mass, the star will fuse different elements at different times, and grow and die at different times. Very low mass stars will burn for far longer than the current age of the universe. Stars like our sun will eventually develop a hot outer layer that swells up, becoming very bright (moving up) and very red (moving right). Large blue stars will burn brighter and faster as they move through different elements and maybe eventually explode (link to crab nebula). In general, the larger the star, the faster it burns out.",
+     description: "Sirius is the brightest star in the night sky, not Polaris. Sirius is also known as the “dog star” for its position in Canis Major (and is probably what the dog-man Sirius Black in Harry Potter is named after). Despite appearing as one star to us, Sirius is actually a binary system <a class='link' onclick='link(14)'>(see Alpha Centauri)</a>, with one star larger than our sun (Sirius A) and one tiny redder star (Sirius B). <br><br><b>Stellar Evolution and the HR Diagram</b><br><br>All stars change, grow, and shrink over their lifetime. To show where a star has been and where it’s going, astronomers keep track of their position on the H-R diagram. The H-R diagram, or Hertzsprung-Russell diagram, is a chart with temperature/color (hotter stars are always bluer, so they mean the same thing) on one axis and luminosity on the other. For historical reasons, increasing temperature goes right to left while increasing luminosity goes down to up. Stars start as prostars, big clumps of gas heated only by gravitational contraction, far right and down low. As fusion starts, they begin to climb to the left and up as they get hotter and brighter. Depending on the star’s mass, the star will fuse different elements at different times, and grow and die at different times. Very low mass stars will burn for far longer than the current age of the universe. Stars like our sun will eventually develop a hot outer layer that swells up, becoming very bright (moving up) and very red (moving right). Large blue stars will burn brighter and faster as they move through different elements and maybe eventually explode <a class='link' onclick='link(9)'>(link to crab nebula)</a>. In general, the larger the star, the faster it burns out.",
      imgLink: "https://commons.wikimedia.org/wiki/File:Sirius_A_and_B_Hubble_photo.jpg",
      x: 1862,
      y: 759.5,
@@ -198,7 +198,23 @@ var objects = [
      x: 967.8,
      y: 939.1,
      visited: false,
-     type: 'misc'}
+     type: 'misc'},
+
+    {objName: "Centauri",
+     description: "<br><a class='link' onclick='link(14)'>Alpha Centauri AB</a><br><br><a class='link' onclick='link(15)'>Beta Centauri</a><br><br><a class='link' onclick='link(16)'>Proxima Centauri</a><br><br>",
+     imgLink: "https://upload.wikimedia.org/wikipedia/commons/6/61/Alpha%2C_Beta_and_Proxima_Centauri_%281%29.jpg",
+     x: 1008.3,
+     y: 1073.5,
+     type: "misc"
+    },
+
+    {objName: "M87",
+     description: "<br><a class='link' onclick='link(18)'>M87's Black hole and Quasar</a><br><br><a class='link' onclick='link(19)'>M87's Awesome Jet</a><br><br>",
+     imgLink: "https://hubblesite.org/uploads/image/display_image/2736/print.jpg",
+     x: 1240,
+     y: 552.3,
+     type: "misc"
+    },
 ];
 
 var terms = [
@@ -216,15 +232,5 @@ var terms = [
     },
     {termName: "Angular Momentum",
      explanation: "Angular momentum is Newton’s 1st law of motion applied: “Without an outside force, an object in motion will stay in motion, while an object at rest will stay at rest”. Angular momentum is the product of an object’s mass, velocity and distance from the object it’s rotating around (mvr). What’s important about angular momentum is that in the absence of friction or air resistance, angular momentum is always conserved. Therefore, if radius increases, since mvr is constant and mass is constant, the velocity of the object must decrease. As radius shrinks, velocity grows. Therefore, if either a rotating object shrinks in size or an object orbiting another drops down lower, they will move faster."
-    }
-];
-
-var zoomins = [
-    {name: "Centauri",
-     objName: "Centauri",
-     imgLink: "https://upload.wikimedia.org/wikipedia/commons/6/61/Alpha%2C_Beta_and_Proxima_Centauri_%281%29.jpg",
-     x: 1008.3,
-     y: 1073.5,
-     type: "misc"
     }
 ];
