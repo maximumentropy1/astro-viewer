@@ -19,6 +19,29 @@ h1 {
     right: 80px;
     top: 130px;
 }
+#instructionlink {
+    position: relative;
+    left: 1100px;
+    bottom: 163px;
+    width: 75px;
+    padding-left: 15px;
+    padding-right: 15px
+    text-align: center;
+    border-radius: 5px;
+    border-width: 3px;
+
+}
+#sourceslink {
+    position: relative;
+    left: 800px;
+    bottom: 163px;
+    width: 75px;
+    padding-left: 20px;
+    padding-right: 15px
+    text-align: center;
+    border-radius: 5px;
+    border-width: 3px; 
+}
 
 .explanation {
     border: 0px;
