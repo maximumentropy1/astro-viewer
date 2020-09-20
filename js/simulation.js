@@ -60,7 +60,7 @@ function drawDots(object) {
     
     //check if it has been visited before
     if(object.visited) {
-	ctx.fillStyle = "rgb(200,50,50)";
+	ctx.fillStyle = "rgb(10, 10, 10)";
     } else {
 	ctx.fillStyle = "rgb(255,0,0)";
     }
