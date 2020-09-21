@@ -5,6 +5,7 @@
 html, body {
     width: 100%;
     height: 100%;
+    font-size: 16px;
 }
 canvas {
     /* remove the scroll bars when canvas is full screen */
@@ -12,7 +13,7 @@ canvas {
 }
 #description {
     position: absolute;
-    bottom: 200px;
+    bottom: 100px;
     left: min(7%, 100px);
     background-color: white;
     border-radius: 30px;
@@ -20,7 +21,6 @@ canvas {
     border-color: purple;
     padding: 15px;
     border-width: 10px;
-    font-size: 16px;
 }
 .descriptiondiv {
     visibility: hidden;
