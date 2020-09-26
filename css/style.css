@@ -34,7 +34,6 @@ h1 {
 }
 #instructionlink {
     position: relative;
-    left: 1100px;
     bottom: 163px;
     width: 75px;
     padding-left: 15px;
@@ -46,7 +45,6 @@ h1 {
 }
 #sourceslink {
     position: relative;
-    left: 800px;
     bottom: 163px;
     width: 75px;
     padding-left: 20px;
