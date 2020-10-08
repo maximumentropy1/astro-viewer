@@ -8,68 +8,35 @@ body {
     font-weight: bold;
 }
 
-
 h1 {
     text-align: center;
     color: #fff;
 }
-#explanation {
-    color: white;
-    width: 1000px;
-    display: inline-block;
-    border-radius: 5px;
-    border-width: 3px;
-    background-color: #600d8c;
-    opacity: 0.65;
-    margin: auto;
-    position: relative;
-    bottom:300px;
-    left: 150px;
-}
 
-#link {
-    position: relative;
-    right: 80px;
-    top: 130px;
-}
-#instructionlink {
-    position: relative;
-    bottom: 163px;
-    width: 75px;
-    padding-left: 15px;
-    padding-right: 15px
-    text-align: center;
-    border-radius: 5px;
-    border-width: 3px;
-
-}
-#sourceslink {
-    position: relative;
-    bottom: 163px;
-    width: 75px;
-    padding-left: 20px;
-    padding-right: 15px
-    text-align: center;
-    border-radius: 5px;
-    border-width: 3px; 
-}
-
-.explanation {
+p {
     border: 0px;
+    padding: 15px;
     border-radius: 3px;
     color: #999;
     background-color: #600d8c;
-    display: inline-block;
     width: 100%;
+    margin: 10px;
 }
-h3 {
-    margin: 15px;
+ol {
+    border: 0px;
+    padding: 15px;
+    border-radius: 3px;
+    color: #999;
+    background-color: #600d8c;
+    width: 100%;
+    margin: 10px;
 }
-
-
+li {
+    margin: 10px;
+}
 a {
     text-decoration: none;
-    padding: 14px 25px;
+    padding: 15px;
     text-align: center;
     display: inline-block;
     width: 100%;
@@ -93,12 +60,13 @@ a:active {
 
 /* phones */
 [class*="col-"] {
-    width: 100%;
+    width: 90%;
 }
 
 @media only screen and (min-width: 600px) {
     /* tablets */
-    .col-s-1 { width: 8.33%;}
+    .col-s-0 {width: 0.00%;}
+    .col-s-1 {width: 8.33%;}
     .col-s-2 {width: 16.66%;}
     .col-s-3 {width: 25%;}
     .col-s-4 {width: 33.33%;}
